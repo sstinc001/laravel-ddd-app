@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+
+rectangle D as Develop {
+    rectangle S as System {
+        (サインアップ) as SignUp
+        (サインイン) as SignIn
+        (日記を書く) as Diary
+        (ユーザーを探す) as Search
+        (フレンド申請する) as Entry
+        (フレンド申請を受信する) as Receive
+        (フレンド申請を承認/拒否する) as Decide
+        (チャットする) as Chat
+'        ((Admin)とチャットする)
+    }
+}
+
+:管理者: as Admin
+:ユーザー: as User
+
+'Admin ..> System
+User ..> SignUp
+User ..> SignIn
+User ..> Diary
+User ..> Search
+User ..> Entry
+Receive ..> User
+User ..> Decide
+User <..> Chat
+
+note top of Develop
+    開発するシステム
+end note
+
+@enduml

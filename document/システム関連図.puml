@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+:管理者: as Admin
+:ユーザー: as User
+
+rectangle {
+    rectangle snsシステム as System {
+    }
+}
+
+rectangle メール配信サービス as MailService
+rectangle SNSログイン as FireBase
+
+FireBase --> System
+User -> System
+System -> Admin
+System -down-> MailService
+
+
+note right of Admin
+* お知らせなどの投稿をする
+* ユーザーをBANする
+end note
+
+
+note left of (User)
+* webサイトからサインアップする
+* サインインする
+* 日記を書く
+* 他のユーザーを探す
+* 他のユーザーにフレンド申請する
+* 他のユーザーのフレンド申請を承認/拒否する
+* 他のユーザーとチャットする
+* (Admin)とチャットする
+end note
+
+note bottom of MailService
+メールサービスは、フルマネージドサービスを利用する
+SESとかsendgridとか
+end note
+
+note right of FireBase
+SNS情報の取得は、フルマネージドサービスを利用する
+FCMとかfirebaseとか
+end note
+
+@enduml
