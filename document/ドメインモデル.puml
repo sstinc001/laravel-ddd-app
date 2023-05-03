@@ -1,0 +1,139 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+rectangle "ブログ集約" as BlogAggregation {
+    class "投稿" as Post {
+        {field} 投稿ID
+        {field} 投稿者ID
+        {field} 投稿スラッグ
+        {field} タイトル
+        {field} 本文
+        {field} 公開ステータス
+        {field} 閲覧ステータス
+        {field} 投稿タイプ
+        {field} 予約日時
+        {field} 作成日時
+        {field} 更新日時
+        {field} 削除日時
+        {method} many methods
+    }
+    class "コメント" as Comment {
+        {field} コメントID
+        {field} 投稿者ID
+        {field} 投稿ID
+        {field} 本文
+        {field} コメント投稿者のIP
+        {field} コメント投稿者のUA
+        {field} 作成日時
+        {field} 更新日時
+        {field} 削除日時
+        {method} many methods
+    }
+}
+
+rectangle "お知らせ集約" as InformationAggregation {
+    class "お知らせ" as Information {
+        {field} お知らせID
+        {field} 投稿者ID
+        {field} スラッグ
+        {field} タイトル
+        {field} 本文
+        {field} 公開ステータス
+    }
+}
+
+rectangle "ユーザー集約" as UserAggregation {
+    class "ユーザー" as User {
+        {field} ユーザーID
+        {field} ユーザー名
+        {field} プロバイダーID
+        {field} UID
+        {field} 写真URL
+        {field} メールアドレス
+        {field} メール認証日時
+        {field} パスワード
+        {field} パスワード忘れトークン
+        {field} 作成日時
+        {field} 更新日時
+        {field} 削除日時
+        {method} many methods
+    }
+    class "ユーザー情報" as UserProfile {
+        {field} cell_phone
+        {field} "many properties"
+        {method} many methods
+    }
+}
+
+rectangle "管理者集約" as AdminAggregation {
+    class "管理者" as Admin {
+        {field} 管理者ID
+        {field} 管理者名
+        {field} 管理者ステータス
+        {method} many methods
+    }
+}
+
+note right of Admin::管理者ステータス
+    * 管理者ステータスには
+    「活性」「非活性」がある
+end note
+
+note right of User::プロバイダーID
+    * この値はfirebaseから送られる
+    * プロバイダーIDには「password」(メールアドレスで認証)、
+    「google.com」(gmail認証)など認証毎で異なる文字列が入る
+end note
+
+note right of User::UID
+    * この値はfirebaseから送られる
+end note
+
+note right of User::写真URL
+    * この値はfirebaseから送られる
+    * firebaseの認証形式に寄ってはnullが送られる場合がある
+end note
+
+note right of Post::投稿者ID
+  * User::ユーザーIDまたはUser::UIDと型同じ
+end note
+
+note right of Post::公開ステータス
+  * 公開ステータスは「下書き」「公開」の2つ
+  * 初期値は「下書き」
+  * ステータス変更は筆者のみ変更可能
+  * 「予約日時」がセットされている場合は、「下書き<>公開」と変化する
+  * ENUMクラス公開を作って管理する
+end note
+
+note right of Post::閲覧ステータス
+  * 閲覧可能範囲
+  * 友達機能が導入されるまでは「全体に公開」「非公開」の2つのみ
+  * 初期値は「全体に公開」
+  * ENUMクラス閲覧範囲を作って管理する
+end note
+
+note right of Post::投稿タイプ
+  * 投稿型
+  * ブログ投稿の「post」と固定ページ「page」がある
+  * 固定ページ作成機能が導入されるまでは「post」しか入らない
+  * ENUMクラス投稿型を作って管理する
+end note
+
+note right of Comment::投稿者ID
+  * User::ユーザーIDまたはUser::UIDと型同じ
+end note
+
+
+Post "n" --> "1" User
+Comment "n" --> "1" User
+Comment "n" -* "1" Post
+Information "n" --> "1" Admin
+UserProfile -* User: contains
+
+'note right of Diary
+'  部分クラスがなくて成り立ちます。
+'end note
+
+
+@enduml

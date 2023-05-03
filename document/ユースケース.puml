@@ -6,13 +6,14 @@ rectangle D as Develop {
     rectangle S as System {
         (サインアップ) as SignUp
         (サインイン) as SignIn
-        (日記を書く) as Diary
-        (ユーザーを探す) as Search
-        (フレンド申請する) as Entry
-        (フレンド申請を受信する) as Receive
-        (フレンド申請を承認/拒否する) as Decide
-        (チャットする) as Chat
+        (ブログを書く) as Blog
+'        (ユーザーを探す) as Search
+'        (フレンド申請する) as Entry
+'        (フレンド申請を受信する) as Receive
+'        (フレンド申請を承認/拒否する) as Decide
+'        (チャットする) as Chat
 '        ((Admin)とチャットする)
+        (お知らせ) as Information
     }
 }
 
@@ -22,12 +23,14 @@ rectangle D as Develop {
 'Admin ..> System
 User ..> SignUp
 User ..> SignIn
-User ..> Diary
-User ..> Search
-User ..> Entry
-Receive ..> User
-User ..> Decide
-User <..> Chat
+'User ..> Search
+'User ..> Entry
+'Receive ..> User
+'User ..> Decide
+'User <..> Chat
+User <..> Blog
+Information <.. Admin
+User <.. Information
 
 note top of Develop
     開発するシステム
