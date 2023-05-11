@@ -94,6 +94,12 @@ note right of User::写真URL
     * firebaseの認証形式に寄ってはnullが送られる場合がある
 end note
 
+note right of User::メール認証日時
+    * アカウント作成（と再認証？）時に送信されるメール内にアクセスURLがある
+    * ↑のアクセスURLを踏んだ日時を記録する
+    * この項目がnullのままだとログイン出来ない
+end note
+
 note right of Post::投稿者ID
   * User::ユーザーIDまたはUser::UIDと型同じ
 end note
