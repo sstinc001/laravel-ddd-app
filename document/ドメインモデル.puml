@@ -79,6 +79,11 @@ note right of Admin::管理者ステータス
     「活性」「非活性」がある
 end note
 
+note left of UserAggregation
+    * ユーザー登録が出来る
+    * メール承認完了後自動的に活性化する
+    * ユーザーの非活性化が出来る
+end note
 note right of User::プロバイダーID
     * この値はfirebaseから送られる
     * プロバイダーIDには「password」(メールアドレスで認証)、
@@ -92,6 +97,10 @@ end note
 note right of User::写真URL
     * この値はfirebaseから送られる
     * firebaseの認証形式に寄ってはnullが送られる場合がある
+end note
+
+note right of User::メールアドレス
+    * メールアドレスは重複登録出来ない
 end note
 
 note right of User::メール認証日時
